@@ -10,6 +10,7 @@ import Item from './Item/Item';
 
 // styles
 import { Wrapper, StyledButton } from './App.styles';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 // types
 export type CartItemType = {
@@ -32,7 +33,7 @@ const App = () => {
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
 
   const {data, isLoading, error} = useQuery<CartItemType[]>('products', getProducts);
-  const getTotalItems = () => null;
+  const getTotalItems = (items: CartItemType[]) => null;
   const handleAddToCart = (clickedItem: CartItemType) => null;
   const handleRemoveFromCart = () => null;
 
@@ -45,7 +46,9 @@ const App = () => {
         cart goes here
       </Drawer>
       <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge badgeContent={getTotalItems(cartItems)} ></Badge>
+        <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+          <AddShoppingCartIcon></AddShoppingCartIcon>
+        </Badge>
       </StyledButton>
       <Grid container spacing={3}>
         {data?.map((item) => (
