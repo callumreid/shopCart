@@ -9,7 +9,7 @@ import { Badge } from '@material-ui/core';
 import Item from './Item/Item';
 
 // styles
-import {Wrapper} from './App.styles';
+import { Wrapper, StyledButton } from './App.styles';
 
 // types
 export type CartItemType = {
@@ -28,6 +28,9 @@ const getProducts = async(): Promise<CartItemType[]> =>
 
 
 const App = () => {
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([] as CartItemType[]);
+
   const {data, isLoading, error} = useQuery<CartItemType[]>('products', getProducts);
   const getTotalItems = () => null;
   const handleAddToCart = (clickedItem: CartItemType) => null;
@@ -38,7 +41,13 @@ const App = () => {
 
   return (
     <Wrapper>
-      <Grid container space={3}>
+      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+        cart goes here
+      </Drawer>
+      <StyledButton onClick={() => setCartOpen(true)}>
+        <Badge badgeContent={getTotalItems(cartItems)} ></Badge>
+      </StyledButton>
+      <Grid container spacing={3}>
         {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
             <Item item={item} handleAddToCart={handleAddToCart} />
